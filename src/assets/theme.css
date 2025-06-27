@@ -1,0 +1,6 @@
+@theme {
+  --*: initial;
+  --spacing: 4px;
+  --font-body: 'Poppins', sans-serif;
+  --font-display: 'Poppins', 'sans-serif';
+}
