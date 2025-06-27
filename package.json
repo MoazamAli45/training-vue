@@ -1,5 +1,5 @@
 {
-  "name": "vue-test",
+  "name": "vue-jobs",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -8,10 +8,12 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "server": "json-server --watch src/jobs.json --port 5000"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
+    "json-server": "^1.0.0-beta.3",
     "lucide-vue-next": "^0.524.0",
     "tailwindcss": "^4.1.11",
     "vue": "^3.5.17",
