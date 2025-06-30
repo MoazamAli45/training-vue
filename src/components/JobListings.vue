@@ -1,10 +1,14 @@
 <script setup>
-import jobsData from '@/jobs.json'
-import { ref } from 'vue'
+import { onMounted, reactive } from 'vue'
 import JobListing from './JobListing.vue'
 import { RouterLink } from 'vue-router'
+import axios from 'axios'
+import { VueSpinnerDots } from 'vue3-spinners'
 
-const jobs = ref(jobsData)
+const state = reactive({
+  isLoading: true,
+  jobs: [],
+})
 
 defineProps({
   limit: Number,
@@ -13,14 +17,33 @@ defineProps({
     default: false,
   },
 })
+
+onMounted(async () => {
+  try {
+    const res = await axios('/api/jobs')
+
+    state.jobs = res.data
+  } catch (error) {
+    console.log('ERROR', error)
+  } finally {
+    state.isLoading = false
+  }
+})
 </script>
 
 <template>
   <section class="bg-green-50 px-4 py-10">
     <div class="container-xl lg:container m-auto">
       <h2 class="text-3xl font-bold text-green-500 mb-6 text-center">Browse Jobs</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <JobListing v-for="job in jobs.slice(0, limit || jobs.length)" :key="job.id" :job="job" />
+      <div class="flex items-center justify-center" v-if="state.isLoading">
+        <VueSpinnerDots class="text-green-500" size="50" />
+      </div>
+      <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <JobListing
+          v-for="job in state.jobs.slice(0, limit || state.jobs.length)"
+          :key="job.id"
+          :job="job"
+        />
       </div>
     </div>
   </section>

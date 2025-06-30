@@ -1,13 +1,67 @@
+<script setup>
+import axios from 'axios'
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toast-notification'
+
+const form = reactive({
+  type: 'Full-Time',
+  title: '',
+  description: '',
+  salary: '',
+  location: '',
+  company: {
+    name: '',
+    description: '',
+    contactEmail: '',
+    contactPhone: '',
+  },
+})
+
+const router = useRouter()
+const toast = useToast()
+
+const submitHandler = async () => {
+  const newJob = {
+    title: form.title,
+    type: form.type,
+    location: form.location,
+    description: form.description,
+    salary: form.salary,
+    company: {
+      name: form.company.name,
+      description: form.company.description,
+      contactEmail: form.company.contactEmail,
+      contactPhone: form.company.contactPhone,
+    },
+  }
+
+  try {
+    await axios.post(`/api/jobs`, newJob)
+    toast.success('Added Job Successfully')
+    router.push('/jobs')
+  } catch (error) {
+    toast.error(error.message)
+  }
+}
+</script>
+
 <template>
   <section class="bg-green-50">
     <div class="container m-auto max-w-2xl py-24">
       <div class="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
-        <form>
+        <form @submit.prevent="submitHandler">
           <h2 class="text-3xl text-center font-semibold mb-6">Add Job</h2>
 
           <div class="mb-4">
             <label for="type" class="block text-gray-700 font-bold mb-2">Job Type</label>
-            <select id="type" name="type" class="border rounded w-full py-2 px-3" required>
+            <select
+              id="type"
+              name="type"
+              class="border rounded w-full py-2 px-3"
+              required
+              v-model="form.type"
+            >
               <option value="Full-Time">Full-Time</option>
               <option value="Part-Time">Part-Time</option>
               <option value="Remote">Remote</option>
@@ -23,7 +77,7 @@
               name="name"
               class="border rounded w-full py-2 px-3 mb-2"
               placeholder="eg. Beautiful Apartment In Miami"
-              required
+              v-model="form.title"
             />
           </div>
           <div class="mb-4">
@@ -34,12 +88,19 @@
               class="border rounded w-full py-2 px-3"
               rows="4"
               placeholder="Add any job duties, expectations, requirements, etc"
+              v-model="form.description"
             ></textarea>
           </div>
 
           <div class="mb-4">
             <label for="type" class="block text-gray-700 font-bold mb-2">Salary</label>
-            <select id="salary" name="salary" class="border rounded w-full py-2 px-3" required>
+            <select
+              id="salary"
+              name="salary"
+              class="border rounded w-full py-2 px-3"
+              required
+              v-model="form.salary"
+            >
               <option value="Under $50K">under $50K</option>
               <option value="$50K - $60K">$50 - $60K</option>
               <option value="$60K - $70K">$60 - $70K</option>
@@ -62,6 +123,7 @@
               name="location"
               class="border rounded w-full py-2 px-3 mb-2"
               placeholder="Company Location"
+              v-model="form.location"
               required
             />
           </div>
@@ -75,6 +137,7 @@
               id="company"
               name="company"
               class="border rounded w-full py-2 px-3"
+              v-model="form.company.name"
               placeholder="Company Name"
             />
           </div>
@@ -89,6 +152,7 @@
               class="border rounded w-full py-2 px-3"
               rows="4"
               placeholder="What does your company do?"
+              v-model="form.company.description"
             ></textarea>
           </div>
 
@@ -102,6 +166,7 @@
               name="contact_email"
               class="border rounded w-full py-2 px-3"
               placeholder="Email address for applicants"
+              v-model="form.company.contactEmail"
               required
             />
           </div>
@@ -114,6 +179,7 @@
               id="contact_phone"
               name="contact_phone"
               class="border rounded w-full py-2 px-3"
+              v-model="form.company.contactPhone"
               placeholder="Optional phone for applicants"
             />
           </div>
