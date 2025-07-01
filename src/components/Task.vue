@@ -32,6 +32,7 @@ const store = useTasksStore();
   padding: 20px;
   border-radius: 12px;
   position: relative;
+  width: 100%;
 
   h3 {
     font-size: 20px;

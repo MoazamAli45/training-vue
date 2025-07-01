@@ -55,6 +55,11 @@ store.$subscribe((mutation, state) => {
   justify-content: space-between;
   align-items: center;
 
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+
   .header-side {
     display: flex;
     align-items: center;

@@ -10,7 +10,7 @@ body {
   background-color: var(--primary-color);
   color: #fff;
   height: 100%;
-  padding: 60px;
+  padding-top: 60px;
 }
 
 .container {
@@ -69,6 +69,6 @@ body {
 }
 
 .badge.selected {
-    background-color: #E42C5F;
-    color: var(--white-color);
+  background-color: #e42c5f;
+  color: var(--white-color);
 }
