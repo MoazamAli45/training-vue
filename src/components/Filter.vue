@@ -23,7 +23,9 @@ const store = useTasksStore();
         >
           Done
         </div>
-        <span class="clear" @click="store.setFilter('')"> x clear </span>
+        <span class="clear" @click="store.setFilter('')" v-if="store.filterBy">
+          x clear
+        </span>
       </div>
     </div>
   </div>
